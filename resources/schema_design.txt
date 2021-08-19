@@ -1,0 +1,32 @@
+Schema for Fintech Stocks
+
+measurements: 
+
+ark_fintech,affirm,aoinbase,fiserv,payPal,square
+
+tags: id ??
+
+fields: date, open, high, low, close, adj_close, volume_traded
+
+
+
+Write Data from file: 
+
+curl -i -XPOST 'http://localhost:8086/write?db=fintechdb' --data-binary @fintech_stocks.xslt
+
+other way I found: 
+
+	influx write -b example-bucket -f path/to/example.csv
+
+
+
+Example Queries
+
+SELECT id,AVG(close) FROM ark_fintech WHERE time >= '02/04/2019 00:00:00'
+
+SELECT id,volume_traded FROM ark_fintech WHERE close > open
+
+SELECT id FROM ark_fintech HAVING AVG(close) > AVG(open)
+
+
+
